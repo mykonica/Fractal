@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>HTML5每日一练之Canvas标签的应用-绘制坐标变换图形</title>
+<script type="text/javascript">
+window.onload = function()
+{
+var canvas = document.getElementById("W3Cfuns_canvas");
+var context = canvas.getContext("2d");
+//context.fillStyle = "white";
+//context.fillRect(0, 0, 400, 300);
+
+//绘制图形
+context.translate(200, 250);
+context.rotate(Math.PI);
+context.translate(200, 250);
+//
+//context.fillStyle = "rgb(0, 0, 255)";
+context.strokeStyle = 'black';
+context.moveTo(0, 0);
+context.lineTo(100, 0);
+context.stroke();
+/*
+context.strokeStyle = 'blue';
+context.moveTo(0, 0);
+context.lineTo(0, 100);
+context.stroke();
+
+context.strokeStyle = 'red';
+context.moveTo(0, 0);
+context.lineTo(100, 50);
+context.lineTo(100, 60);
+context.stroke();
+*/
+//context.fillRect(0, 0, 100, 50);
+/*
+for(var i = 0; i < 50; i++)
+{
+context.translate(25, 25);
+context.scale(0.95, 0.95);
+context.rotate(Math.PI / 10);
+context.fillRect(0, 0, 100, 50);
+}
+*/
+
+}
+
+</script>
+</head>
+
+<body>
+<canvas id="W3Cfuns_canvas" width="600" height="400"></canvas>
+<script type="text/javascript">
+	var fso = new ActiveXObject("Scripting.FileSystemObject"); 
+	var f1 = fso.createtextfile("c:\myjstest.txt"，true); 
+</script>
+</body>
+</html>
