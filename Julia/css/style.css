@@ -1,0 +1,54 @@
+body {
+	background-color:#ccc;
+	//background-image:url("butterfly.gif");
+	font-family:"微软雅黑";
+	font-size:22px;
+}
+
+div {
+	//border: solid 1px #f00;
+}
+
+#table {
+	width: 80%;
+}
+.setting-panel {
+	float: left;
+	width: 200px;
+	height: auto;
+	font-size: 11px;
+	font-weight: 400px;
+}
+.org {
+	width: 25%;
+}
+.ver-hr{
+	width: 1px;
+	height: 800px;
+	float: left;
+	align:center;
+}
+.len{
+	width: 20%;
+}
+
+p {
+	font-size: 11px;
+}
+
+.param {
+	margin-left: 20px;
+}
+
+.param-hr{
+	border: dashed 1px #987cb9;
+}
+.drawing-panel {
+	float: left;
+}
+
+#paint-canvas {
+	background-color: #fff;
+	margin-left: auto;
+	margin-right: auto;
+}
