@@ -6,8 +6,22 @@
 	<link rel="stylesheet" type="text/css" href="css\style.css">
 </head>
 <body>
+	<div id="setting-panel" class="setting-panel">
+		<hr></hr>
+		<div>
+			<button id="paint">绘图</button>
+<!-- 			<button id="animate">动画</button>
+			<button id="clear">清除</button> -->
+		</div>
+		<hr></hr>
+		<input type="checkbox" id="use_color">着色</input>
+		<input type="checkbox" id="show_axis">显示坐标轴</input>
+		<div>逃逸次数：<input id="steps" class="len" value="50"></input></div>
+		<hr></hr>
+
+	</div>
 	<div class="drawing-panel">
-		<canvas id="paint-canvas" width="900" height="600"></canvas>
+		<canvas id="paint-canvas" width="800" height="800"></canvas>
 	</div>
 
 	<script type="text/javascript" src="js\jquery.js"></script>
