@@ -27,9 +27,12 @@ function ismandelbrot(re, im) {
 	return true;
 }
 
-function paintMandelbrot(width, height) {
+function paintMandelbrot() {
 	window.context.save();
 
+	var width = window.canvas.width;
+	var height = window.canvas.height;
+	
 	var re = 0.0;
 	var im = 0.0;
 	var scale_factor = 2.0 / height;
