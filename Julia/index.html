@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>分形 - Mandelbrot</title>
+	<link rel="stylesheet" type="text/css" href="css\style.css">
+</head>
+<body>
+	<div id="setting-panel" class="setting-panel">
+		<hr></hr>
+		<div>
+			<button id="paint">绘图</button>
+			<button id="animate">动画</button>
+			<button id="clear">清除</button>
+		</div>
+		<hr></hr>
+		<div>c：x <input id="org-x" class="org"></input> y <input id="org-y" class="org"></input></div>
+		<hr></hr>
+		<div>预置:<select id="table" class="table"></select></div>
+		<div id="param-container" class="param-container"></div>
+	</div>
+	<div class="drawing-panel">
+		<canvas id="paint-canvas" width="800" height="800"></canvas>
+	</div>
+
+	<script type="text/javascript" src="js\jquery.js"></script>
+	<script type="text/javascript" src="js\data.js"></script>
+	<script type="text/javascript" src="js\julia.js"></script>
+	<script type="text/javascript" src="js\init.js"></script>
+
+</body>
+
+</html>

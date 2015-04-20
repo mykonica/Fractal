@@ -7,5 +7,5 @@ $(document).ready(function() {
 	window.canvas = $('#paint-canvas')[0];
 	window.context = window.canvas.getContext('2d');
 
-	paintMandelbrot($('#paint-canvas').attr("width"), $('#paint-canvas').attr("height"));
+	paintMandelbrot();
 });

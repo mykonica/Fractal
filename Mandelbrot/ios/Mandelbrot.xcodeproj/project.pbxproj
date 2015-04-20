@@ -15,6 +15,7 @@
 		FB46465D1ADB6F0900AAD040 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB46465B1ADB6F0900AAD040 /* LaunchScreen.xib */; };
 		FB4646691ADB6F0900AAD040 /* MandelbrotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4646681ADB6F0900AAD040 /* MandelbrotTests.m */; };
 		FB4646741ADBAAA800AAD040 /* ComplexNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4646731ADBAAA800AAD040 /* ComplexNumber.m */; };
+		FBF00A101ADF9E610028FE9F /* BorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FBF00A0F1ADF9E610028FE9F /* BorderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,8 @@
 		FB4646681ADB6F0900AAD040 /* MandelbrotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MandelbrotTests.m; sourceTree = "<group>"; };
 		FB4646721ADBAAA800AAD040 /* ComplexNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComplexNumber.h; sourceTree = "<group>"; };
 		FB4646731ADBAAA800AAD040 /* ComplexNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComplexNumber.m; sourceTree = "<group>"; };
+		FBF00A0E1ADF9E610028FE9F /* BorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorderView.h; sourceTree = "<group>"; };
+		FBF00A0F1ADF9E610028FE9F /* BorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +97,8 @@
 				FB46464C1ADB6F0900AAD040 /* Supporting Files */,
 				FB4646721ADBAAA800AAD040 /* ComplexNumber.h */,
 				FB4646731ADBAAA800AAD040 /* ComplexNumber.m */,
+				FBF00A0E1ADF9E610028FE9F /* BorderView.h */,
+				FBF00A0F1ADF9E610028FE9F /* BorderView.m */,
 			);
 			path = Mandelbrot;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 			files = (
 				FB4646551ADB6F0900AAD040 /* ViewController.m in Sources */,
 				FB4646521ADB6F0900AAD040 /* AppDelegate.m in Sources */,
+				FBF00A101ADF9E610028FE9F /* BorderView.m in Sources */,
 				FB46464F1ADB6F0900AAD040 /* main.m in Sources */,
 				FB4646741ADBAAA800AAD040 /* ComplexNumber.m in Sources */,
 			);
@@ -425,6 +431,7 @@
 				FB46466E1ADB6F0900AAD040 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB46466F1ADB6F0900AAD040 /* Build configuration list for PBXNativeTarget "MandelbrotTests" */ = {
 			isa = XCConfigurationList;
@@ -433,6 +440,7 @@
 				FB4646711ADB6F0900AAD040 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

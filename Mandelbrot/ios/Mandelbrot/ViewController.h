@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController {
+    float *_colors;
+}
+
 @property(nonatomic, strong) UIImageView *imageView;
 @property(nonatomic, strong) UIImage *canvas;
 @end
