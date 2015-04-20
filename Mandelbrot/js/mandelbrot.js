@@ -1,54 +1,82 @@
 function randomColor() {
-	var r = Math.round(Math.random() * 255);
-	var g = Math.round(Math.random() * 255);
-	var b = Math.round(Math.random() * 255);
+    var r = Math.round(Math.random() * 255);
+    var g = Math.round(Math.random() * 255);
+    var b = Math.round(Math.random() * 255);
 
-	return 'rgb(' + r + ',' + g + ',' + b + ')';
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
-function ismandelbrot(re, im) {
-	var x = 0.0;
-	var y = 0.0;
-	var nx = 0.0;
-	var ny = 0.0;
+function buildColorArray(size) {
+    var colors = new Array();
+    for (var i = 0; i < size; i++) {
+        colors[i] = randomColor();
+    }
 
-	for (var i = 0; i < window.MANDELBROT_STEPS; i++) {
-		nx = x * x - y * y + re;
-		ny = 2 * x * y + im;
-
-		if (nx * nx + ny * ny > 4) {
-			return false;
-		}
-
-		x = nx;
-		y = ny;
-	}
-
-	return true;
+    return colors;
 }
 
-function paintMandelbrot() {
-	window.context.save();
+function mandelbrotStep(re, im, steps) {
+    var x = 0.0;
+    var y = 0.0;
+    var nx = 0.0;
+    var ny = 0.0;
 
-	var width = window.canvas.width;
-	var height = window.canvas.height;
-	
-	var re = 0.0;
-	var im = 0.0;
-	var scale_factor = 2.0 / height;
+    for (var i = 0; i < steps; i++) {
+        nx = x * x - y * y + re;
+        ny = 2 * x * y + im;
 
-	window.context.fillStyle = '#000000';
+        if (nx * nx + ny * ny > 4) {
+            return i;
+        }
 
-	for (var i = 0; i < width; i++) {
-		for (var j = 0; j < height; j++) {
-			re = i * scale_factor - 2.0;
-			im = j * scale_factor - 1.0;
+        x = nx;
+        y = ny;
+    }
 
-			if (ismandelbrot(re, im)) {
-				window.context.fillRect(i, j, 1, 1);			
-			}
-		}
-	}
+    return steps;
+}
 
-	window.context.restore();
+
+
+function paintMandelbrot(context, view_rect, parameter_rect, steps, colored, axis) {
+    context.save();
+
+    var width = view_rect.xmax - view_rect.xmin;
+    var height = view_rect.ymax - view_rect.ymin;
+    var x_scale_factor = (parameter_rect.xmax - parameter_rect.xmin) / width;
+    var y_scale_factor = (parameter_rect.ymax - parameter_rect.ymin) / height;
+
+    context.fillStyle = '#000000';
+
+    for (var i = 0; i < width; i++) {
+        for (var j = 0; j < height; j++) {
+            var re = parameter_rect.xmin + i * x_scale_factor;
+            var im = parameter_rect.ymin + j * y_scale_factor;
+
+            var step = mandelbrotStep(re, im, steps);
+            if (colored) {
+                if (step == steps) {
+                    context.fillStyle = '#000000';
+                } else {
+                    context.fillStyle = window.colors[step];
+                }
+                window.context.fillRect(i, j, 1, 1);
+            } else {
+                if (step == steps) {
+                    context.fillRect(i, j, 1, 1);
+                }
+            }
+        }
+    }
+
+    if (axis) {
+        context.strokeStyle = '#FF0000';
+        context.moveTo(0, height / 2);
+        context.lineTo(width, height / 2);
+        context.moveTo(width / 2, 0);
+        context.lineTo(width / 2, height);
+        context.stroke();
+    }
+
+    context.restore();
 }
