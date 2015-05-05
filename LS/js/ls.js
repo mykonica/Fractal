@@ -1,91 +1,123 @@
 function randomColor() {
-	var r = Math.round(Math.random() * 255);
-	var g = Math.round(Math.random() * 255);
-	var b = Math.round(Math.random() * 255);
+    var r = Math.round(Math.random() * 255);
+    var g = Math.round(Math.random() * 255);
+    var b = Math.round(Math.random() * 255);
 
-	return 'rgb(' + r + ',' + g + ',' + b + ')';
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
-function lsObject (lsParameters) {
-	this.org_x = lsParameters['x'];
-	this.org_y = lsParameters['y'];
-	this.steps = lsParameters['steps'];
-	this.initial = lsParameters['initial'];
-	this.rules = lsParameters['rules'];
+function lsObject(lsParameters) {
+    this.org_x = lsParameters['org']['x'];
+    this.org_y = lsParameters['org']['y'];
+    this.steps = lsParameters['steps'];
+    this.angle = lsParameters['angle'];
+    this.initial = lsParameters['initial'];
+    this.rules = lsParameters['rules'];
+    this.length = lsParameters['length'];
 
-	this.getLSExpression=getLSExpression;
+    this.getLSExpression = getLSExpression;
 
-	function getLSExpression() {
-		if (this.expression) {
+    function getLSExpression() {
+        if (this.expression) {
 
-		} else {
-			this.expression = new String(this.initial);
+        } else {
+            this.expression = new String(this.initial);
 
-			for (var stepIndex = 0; stepIndex < this.steps; stepIndex++) {
-				for (var ruleIndex = 0; ruleIndex < this.rules.length; ruleIndex++) {
-					expression.replace(this.rules['source'], this.rules['target']);	
-				}
-			}
-		}
-		
-		return this.expression;
-	}
+            for (var stepIndex = 0; stepIndex < this.steps; stepIndex++) {
+                for (var ruleIndex = 0; ruleIndex < this.rules.length; ruleIndex++) {
+                    var source = this.rules[ruleIndex]['source'];
+                    var target = this.rules[ruleIndex]['target'];
+                    this.expression = this.expression.replace(source, target);
+                }
+            }
+        }
+
+        return this.expression;
+    }
 }
 
-function paintIfs(param, count, paint_axes, paint_org) {
-	window.context.save();
-	//计算概率范围
-	var p_range = new Array(param.length + 1);
-	p_range[0] = 0.0;
-	for (var i = 0; i < param.length; ++i) {
-		p_range[i + 1] = p_range[i] + param[i]['p'];
-	}
-	
-	var org_x = parseInt($('#org-x').val());
-	var org_y = parseInt($('#org-y').val());
-	var len = parseInt($('#len').val());
+function paintLS(lsobject) {
+    window.context.save();
 
-	window.context.translate(window.canvas.width / 2 + org_x, window.canvas.height - org_y);
-	
-	if (paint_axes) {
-		window.context.strokeStyle = '#FF00FF';
-		window.context.moveTo(-200, -2);
-		window.context.lineTo(200, -2);
-		window.context.moveTo(0, 0);
-		window.context.lineTo(0, -800);
-		window.context.stroke();
-	}
+    var expression = lsobject.getLSExpression();
 
-	if (paint_org) {
-		window.context.fillStyle = '#FF00FF';
-		window.context.fillRect(-2, -2, 4, 4);
-	}
+    var x = 0;
+    var y = 0;
+    var lastx = x;
+    var lasty = y;
+    var angle = 0.0;
+    var length = lsobject.length;
 
-	window.context.fillStyle = 'rgb(255, 0, 0)';
-	var x = 0;//Math.round(Math.random() * 400);
-	var y = 0;//Math.round(Math.random() * 400);
+    window.context.translate(window.canvas.width / 2 + lsobject.org_x, window.canvas.height - lsobject.org_y);
 
-	for (var i = 0; i < count; ++i) {
+    // if (true) {
+    //     window.context.strokeStyle = '#FF00FF';
+    //     window.context.moveTo(-200, -2);
+    //     window.context.lineTo(200, -2);
+    //     window.context.moveTo(0, 0);
+    //     window.context.lineTo(0, -800);
+    //     window.context.stroke();
+    // }
 
-		var E = Math.random();
-		var select_param_index = 0;
-		for (var index = 1; index < p_range.length; ++index) {
-			if (E > p_range[index - 1] && E <= p_range[index]) {
-				select_param_index = index - 1;
-				break;
-			}
-		}
 
-		var sel_param = param[select_param_index];
-		var u = sel_param['a'] * x + sel_param['b'] * y + sel_param['e'];
-		var v = sel_param['c'] * x + sel_param['d'] * y + sel_param['f'];
 
-		x = u;
-		y = v;
+    window.context.fillStyle = 'rgb(255, 0, 0)';
+    window.context.strokeStyle = 'rgb(255, 0, 0)';
 
-		window.context.fillRect(Math.round(x * len), -Math.round(y * len), 1, 1);
-	}
+    var angleRatio = 2 * Math.PI / 360;
+    window.context.moveTo(x, y);
+    if (true) {
+        window.context.fillStyle = '#FF00FF';
+        window.context.fillRect(-20, -20, 40, 40);
+    }
+    for (var i = 0; i < expression.length; i++) {
+        switch (expression[i]) {
+            case 'F':
+                x = x + length * Math.cos(angleRatio * angle);
+                y = y + length * Math.sin(angleRatio * angle);
+                window.context.lineTo(x, y);
+                break;
+            case 'f':
+                x = x + length * Math.cos(angleRatio * angle);
+                y = y + length * Math.sin(angleRatio * angle);
+                window.context.moveTo(x, y);
+                break;
+            case '+':
+                angle += lsobject.angle;
+                if (angle > 360) {
+                    angle -= 360;
+                }
 
-	//window.context.translate(-window.canvas.width / 2 - org_x, -window.canvas.height + org_y);
-	window.context.restore();
+                if (angle < 0) {
+                    angle += 360;
+                }
+                break;
+            case '-':
+                angle -= lsobject.angle;
+                if (angle > 360) {
+                    angle -= 360;
+                }
+
+                if (angle < 0) {
+                    angle += 360;
+                }
+                break;
+            case '[':
+                lastx = x;
+                lasty = y;
+                break;
+            case ']':
+                x = lastx;
+                y = lasty;
+                break;
+            default:
+                break;
+        }
+    }
+
+    window.context.stroke();
+
+
+    //window.context.translate(-window.canvas.width / 2 - org_x, -window.canvas.height + org_y);
+    window.context.restore();
 }
