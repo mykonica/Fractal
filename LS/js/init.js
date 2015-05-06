@@ -18,20 +18,20 @@ function selectTable(index) {
             len = table[index]['len'];
         }
         // $('#len')[0].value = len;
-        window.lsobj = new lsObject(table[index]);
+        var lsobj = new lsObject(table[index]);
 
         $param_obj.append('<hr class="param-hr"></hr>');
 
         var html = '<div class="param">';
 
-        html = html + '<div class="line"><div class="a ratio">w : ' + window.lsobj.initial +
-            ', </div><div class="b ratio">δ : ' + window.lsobj.angle + '°'
-            ', </div> </div>';
+        html = html + '<div class="line"><div class="a ratio">w : ' + lsobj.initial +
+            ' </div><div class="b ratio">δ : ' + lsobj.angle + '°'
+            ' </div> </div>';
 
-        for (var i = 0; i < window.lsobj.rules.length; i++) {
+        for (var i = 0; i < lsobj.rules.length; i++) {
             html = html + '<div class="line"><div class="c ratio">p : ' +
-                window.lsobj.rules[i]['source'] + '->' + window.lsobj.rules[i]['target'] +
-                ', </div></div>'
+                lsobj.rules[i]['source'] + '->' + lsobj.rules[i]['target'] +
+                ' </div></div>'
         }
         html += '</div>';
         html += '<hr class="param-hr"></hr>'
@@ -52,12 +52,14 @@ function initData() {
         $select_obj.change(function() {
             selectTable(select_dom.selectedIndex);
             clearCanvas();
-            paintLS(window.lsobj);
+            var lsobj = new lsObject(table[select_dom.selectedIndex]);
+            paintLS(lsobj);
         });
 
         selectTable(select_dom.selectedIndex);
         clearCanvas();
-        paintLS(window.lsobj);
+        var lsobj = new lsObject(table[select_dom.selectedIndex]);
+        paintLS(lsobj);
     }
 }
 
@@ -81,8 +83,8 @@ $(document).ready(function() {
 
     $('#paint').click(function() {
         clearCanvas();
-        var draw_count = window.count_default;
-        paintLS(window.lsobj);
+        var lsobj = new lsObject(table[select_dom.selectedIndex]);
+        paintLS(lsobj);
     });
 
     $("#clear").click(function() {

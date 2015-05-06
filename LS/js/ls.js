@@ -18,9 +18,9 @@ function lsObject(lsParameters) {
     this.getLSExpression = getLSExpression;
 
     function getLSExpression() {
-        if (this.expression) {
+        // if (this.expression) {
 
-        } else {
+        // } else {
             this.expression = new String(this.initial);
 
             for (var stepIndex = 0; stepIndex < this.steps; stepIndex++) {
@@ -39,7 +39,7 @@ function lsObject(lsParameters) {
                     this.expression = cache.join('');
                 }
             }
-        }
+        // }
 
         return this.expression;
     }
@@ -52,13 +52,13 @@ function paintLS(lsobject) {
     console.log(expression);
     var x = 0;
     var y = 0;
-    var lastx = x;
-    var lasty = y;
     var direction = Math.PI / 2;
+    var stack = new Array();
+
     var delta = Math.PI / 180 * lsobject.angle;
     var length = lsobject.length;
 
-    window.context.translate(window.canvas.width / 2 + lsobject.org_x, 50/*window.canvas.height - lsobject.org_y*/);
+    window.context.translate(window.canvas.width / 2 + lsobject.org_x, lsobject.org_y);
 
     // if (true) {
     //     window.context.strokeStyle = '#FF00FF';
@@ -74,6 +74,7 @@ function paintLS(lsobject) {
     window.context.fillStyle = 'rgb(255, 0, 0)';
     window.context.strokeStyle = 'rgb(255, 0, 0)';
 
+    window.context.beginPath();
     window.context.moveTo(x, y);
     // if (true) {
     //     window.context.fillStyle = '#FF00FF';
@@ -82,14 +83,17 @@ function paintLS(lsobject) {
     for (var i = 0; i < expression.length; i++) {
         switch (expression[i]) {
             case 'F':
+            case 'L':
+            case 'R':
+                window.context.moveTo(x, window.canvas.height - y);
                 x = x + length * Math.cos(direction);
                 y = y + length * Math.sin(direction);
-                window.context.lineTo(x, y);
+                window.context.lineTo(x, window.canvas.height - y);
+
                 break;
             case 'f':
                 x = x + length * Math.cos(direction);
                 y = y + length * Math.sin(direction);
-                window.context.moveTo(x, y);
                 break;
             case '+':
                 direction += delta;
@@ -98,12 +102,19 @@ function paintLS(lsobject) {
                 direction -= delta;
                 break;
             case '[':
-                lastx = x;
-                lasty = y;
+                var status = new Object();
+                status.x = x;
+                status.y = y;
+                status.direction = direction;
+                stack.push(status);
                 break;
             case ']':
-                x = lastx;
-                y = lasty;
+                if (stack.length > 0) {
+                    var status = stack.pop();
+                    x = status.x;
+                    y = status.y;
+                    direction = status.direction;
+                }
                 break;
             default:
                 break;
