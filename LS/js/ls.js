@@ -27,7 +27,16 @@ function lsObject(lsParameters) {
                 for (var ruleIndex = 0; ruleIndex < this.rules.length; ruleIndex++) {
                     var source = this.rules[ruleIndex]['source'];
                     var target = this.rules[ruleIndex]['target'];
-                    this.expression = this.expression.replace(source, target);
+                    var cache = new Array();
+                    for (var i = 0; i < this.expression.length; i++) {
+                        if (this.expression[i] == source) {
+                            cache.push(target);
+                        } else {
+                            cache.push(this.expression[i]);
+                        }
+                    }
+
+                    this.expression = cache.join('');
                 }
             }
         }
@@ -40,15 +49,16 @@ function paintLS(lsobject) {
     window.context.save();
 
     var expression = lsobject.getLSExpression();
-
+    console.log(expression);
     var x = 0;
     var y = 0;
     var lastx = x;
     var lasty = y;
-    var angle = 0.0;
+    var direction = Math.PI / 2;
+    var delta = Math.PI / 180 * lsobject.angle;
     var length = lsobject.length;
 
-    window.context.translate(window.canvas.width / 2 + lsobject.org_x, window.canvas.height - lsobject.org_y);
+    window.context.translate(window.canvas.width / 2 + lsobject.org_x, 50/*window.canvas.height - lsobject.org_y*/);
 
     // if (true) {
     //     window.context.strokeStyle = '#FF00FF';
@@ -64,43 +74,28 @@ function paintLS(lsobject) {
     window.context.fillStyle = 'rgb(255, 0, 0)';
     window.context.strokeStyle = 'rgb(255, 0, 0)';
 
-    var angleRatio = 2 * Math.PI / 360;
     window.context.moveTo(x, y);
-    if (true) {
-        window.context.fillStyle = '#FF00FF';
-        window.context.fillRect(-20, -20, 40, 40);
-    }
+    // if (true) {
+    //     window.context.fillStyle = '#FF00FF';
+    //     window.context.fillRect(-20, -20, 40, 40);
+    // }
     for (var i = 0; i < expression.length; i++) {
         switch (expression[i]) {
             case 'F':
-                x = x + length * Math.cos(angleRatio * angle);
-                y = y + length * Math.sin(angleRatio * angle);
+                x = x + length * Math.cos(direction);
+                y = y + length * Math.sin(direction);
                 window.context.lineTo(x, y);
                 break;
             case 'f':
-                x = x + length * Math.cos(angleRatio * angle);
-                y = y + length * Math.sin(angleRatio * angle);
+                x = x + length * Math.cos(direction);
+                y = y + length * Math.sin(direction);
                 window.context.moveTo(x, y);
                 break;
             case '+':
-                angle += lsobject.angle;
-                if (angle > 360) {
-                    angle -= 360;
-                }
-
-                if (angle < 0) {
-                    angle += 360;
-                }
+                direction += delta;
                 break;
             case '-':
-                angle -= lsobject.angle;
-                if (angle > 360) {
-                    angle -= 360;
-                }
-
-                if (angle < 0) {
-                    angle += 360;
-                }
+                direction -= delta;
                 break;
             case '[':
                 lastx = x;

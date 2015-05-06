@@ -52,7 +52,7 @@ function initData() {
         $select_obj.change(function() {
             selectTable(select_dom.selectedIndex);
             clearCanvas();
-            paintLS(ls_table['table'][$('.setting-panel .table')[0].selectedIndex]['param'], window.count_default);
+            paintLS(window.lsobj);
         });
 
         selectTable(select_dom.selectedIndex);
