@@ -37,7 +37,9 @@ function paintJulia(xc, yc) {
 	
 	
 	var imZ = -1.5;
-	var step = 0.0055;
+	var stepRe = 3 / (width - 1);
+	var stepIm = 3 / (height - 1);
+
 	window.context.fillStyle = '#000000';
 
 	for (var i = 0; i < width; i++) {
@@ -47,10 +49,10 @@ function paintJulia(xc, yc) {
 				window.context.fillRect(i, j, 1, 1);				
 			}
 
-			reZ += step;
+			reZ += stepRe;
 		}
 
-		imZ += step;
+		imZ += stepIm;
 	}
 
 	window.context.restore();
