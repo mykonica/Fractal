@@ -14,29 +14,41 @@ function lsObject(lsParameters) {
     this.initial = lsParameters['initial'];
     this.rules = lsParameters['rules'];
     this.length = lsParameters['length'];
+    this.random = false;
 
-    this.getLSExpression = getLSExpression;
+    this.randomSelectRule = function() {
+        var ruleIndex = Math.floor(Math.random() * this.rules.length);
+        return this.rules[ruleIndex];
+    }
 
-    function getLSExpression() {
+    this.iterateByRule = function (expression, rule) {
+        var source = rule['source'];
+        var target = rule['target'];
+        var cache = new Array();
+        for (var i = 0; i < expression.length; i++) {
+            if (expression[i] == source) {
+                cache.push(target);
+            } else {
+                cache.push(expression[i]);
+            }
+        }
+        return cache.join('');     
+    }
+
+    this.getLSExpression = function () {
         // if (this.expression) {
 
         // } else {
             this.expression = new String(this.initial);
 
             for (var stepIndex = 0; stepIndex < this.steps; stepIndex++) {
-                for (var ruleIndex = 0; ruleIndex < this.rules.length; ruleIndex++) {
-                    var source = this.rules[ruleIndex]['source'];
-                    var target = this.rules[ruleIndex]['target'];
-                    var cache = new Array();
-                    for (var i = 0; i < this.expression.length; i++) {
-                        if (this.expression[i] == source) {
-                            cache.push(target);
-                        } else {
-                            cache.push(this.expression[i]);
-                        }
-                    }
-
-                    this.expression = cache.join('');
+                if (this.random && this.rules.length > 1) {
+                    var rule = this.randomSelectRule();
+                    this.expression = this.iterateByRule(this.expression, rule);
+                } else {
+                    for (var ruleIndex = 0; ruleIndex < this.rules.length; ruleIndex++) {
+                        this.expression = this.iterateByRule(this.expression, this.rules[ruleIndex]);
+                    }                    
                 }
             }
         // }
@@ -49,7 +61,7 @@ function paintLS(lsobject) {
     window.context.save();
 
     var expression = lsobject.getLSExpression();
-    console.log(expression);
+
     var x = 0;
     var y = 0;
     var direction = Math.PI / 2;

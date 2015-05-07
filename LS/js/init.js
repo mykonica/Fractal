@@ -4,6 +4,8 @@ function selectTable(index) {
     $param_obj.html('');
     var table = ls_table['table'];
     if (index >= 0 && index < table.length) {
+        window.lsobj = new lsObject(table[index]);
+
         var org_x = window.org_x_default;
         var org_y = window.org_y_default;
         if ('org' in table[index]) {
@@ -12,25 +14,20 @@ function selectTable(index) {
         }
         $('#org-x')[0].value = org_x;
         $('#org-y')[0].value = org_y;
-
-        var len = window.len_default;
-        if ('len' in table[index]) {
-            len = table[index]['len'];
-        }
-        // $('#len')[0].value = len;
-        var lsobj = new lsObject(table[index]);
+        $('#len')[0].value = window.lsobj.length;
+        $('#steps')[0].value = window.lsobj.steps;
 
         $param_obj.append('<hr class="param-hr"></hr>');
 
         var html = '<div class="param">';
 
-        html = html + '<div class="line"><div class="a ratio">w : ' + lsobj.initial +
-            ' </div><div class="b ratio">δ : ' + lsobj.angle + '°'
+        html = html + '<div class="line"><div class="a ratio">w : ' + window.lsobj.initial +
+            ' </div><div class="b ratio">δ : ' + window.lsobj.angle + '°'
             ' </div> </div>';
 
-        for (var i = 0; i < lsobj.rules.length; i++) {
+        for (var i = 0; i < window.window.lsobj.rules.length; i++) {
             html = html + '<div class="line"><div class="c ratio">p : ' +
-                lsobj.rules[i]['source'] + '->' + lsobj.rules[i]['target'] +
+                window.lsobj.rules[i]['source'] + '->' + window.lsobj.rules[i]['target'] +
                 ' </div></div>'
         }
         html += '</div>';
@@ -52,19 +49,24 @@ function initData() {
         $select_obj.change(function() {
             selectTable(select_dom.selectedIndex);
             clearCanvas();
-            var lsobj = new lsObject(table[select_dom.selectedIndex]);
-            paintLS(lsobj);
+            paintLS(window.lsobj);
         });
 
         selectTable(select_dom.selectedIndex);
         clearCanvas();
-        var lsobj = new lsObject(table[select_dom.selectedIndex]);
-        paintLS(lsobj);
+        setDrawFlags();
+        paintLS(window.lsobj);
     }
 }
 
 function clearCanvas() {
     window.context.clearRect(0, 0, window.canvas.width, window.canvas.height);
+}
+
+function setDrawFlags() {
+    window.lsobj.length = $('#len')[0].value;
+    window.lsobj.steps = $('#steps')[0].value;
+    window.lsobj.random = $('#random')[0].checked;
 }
 
 $(document).ready(function() {
@@ -83,8 +85,8 @@ $(document).ready(function() {
 
     $('#paint').click(function() {
         clearCanvas();
-        var lsobj = new lsObject(table[select_dom.selectedIndex]);
-        paintLS(lsobj);
+        setDrawFlags();
+        paintLS(window.lsobj);
     });
 
     $("#clear").click(function() {
@@ -98,6 +100,7 @@ $(document).ready(function() {
         window.animate_count = 0;
         window.timer = setInterval(function() {
             if (window.animate_count < window.count_default) {
+                setDrawFlags();
                 paintLS(window.lsobj);
                 window.animate_count += window.animate_step_default;
             } else {

@@ -1,7 +1,7 @@
 ls_table = {
 	'table':[
 		{
-			'name':'tree 1', 
+			'name':'tree 6', 
 			'length':10,
 			'org':{'x':0, 'y':0},
 			'steps':5,
@@ -13,7 +13,7 @@ ls_table = {
 			]
 		},	
 		{
-			'name':'tree 1', 
+			'name':'tree 5', 
 			'length':10,
 			'org':{'x':0, 'y':0},
 			'steps':4,
@@ -25,7 +25,7 @@ ls_table = {
 			]
 		},	
 		{
-			'name':'tree 1', 
+			'name':'tree 4', 
 			'length':10,
 			'org':{'x':0, 'y':0},
 			'steps':4,
@@ -37,7 +37,7 @@ ls_table = {
 			]
 		},	
 		{
-			'name':'tree 1', 
+			'name':'tree 3', 
 			'length':10,
 			'org':{'x':0, 'y':0},
 			'steps':5,
@@ -48,7 +48,7 @@ ls_table = {
 			]
 		},
 		{
-			'name':'tree 1', 
+			'name':'tree 2', 
 			'length':10,
 			'org':{'x':0, 'y':0},
 			'steps':5,
